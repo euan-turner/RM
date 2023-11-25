@@ -1,8 +1,7 @@
 module Main where
 
-import RM
-import Examples
-
+import RM ( execRM )
+import Examples ( addRM, multRM )
 
 
 main :: IO ()

@@ -1,14 +1,11 @@
 module Examples where
 
 import RM
-    ( RLabel,
-      Reg,
-      Instr(Halt, Dec, Inc),
+    ( toProg,
+      toRM,
       Prog,
-      RM(..),
-      updateReg,
-      toProg,
-      toRM )
+      RM,
+      Instr(..) )
 
 addP :: Prog 
 addP = toProg  [ Dec 1 1 2
@@ -28,8 +25,8 @@ multP = toProg [ Dec 1 1 6
                   , Halt
                   ]
 
-addRM :: Reg -> Reg -> RM 
+addRM :: Integer -> Integer -> RM 
 addRM x y = toRM addP [(1, x), (2, y)]
 
-multRM :: Reg -> Reg -> RM 
+multRM :: Integer -> Integer -> RM 
 multRM x y = toRM multP [(1, x), (2, y)]

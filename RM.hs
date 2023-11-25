@@ -1,4 +1,12 @@
-module RM where
+module RM (
+  execRM,
+  toProg,
+  toRM,
+  Prog,
+  RM,
+  Conf,
+  Instr(..)
+) where
 
 import Data.Maybe ( mapMaybe ) 
 
