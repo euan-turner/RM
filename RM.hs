@@ -1,5 +1,7 @@
 module RM where
 
+import Data.Maybe ( mapMaybe ) 
+
 type ILabel = Int 
 type RLabel = Int 
 type Reg = Integer 
@@ -32,13 +34,35 @@ execInstr (Dec r l l') rs
     (suc, rs') = updateReg r pred rs
 execInstr (Halt) rs = error "exec called on HALT"
 
-execProg :: RM -> Conf 
-execProg (RM p regs) = execProg' (0, regs)
+execRM :: RM -> Conf 
+execRM (RM p regs) = execRM' (0, regs)
   where 
-    execProg' :: Conf -> Conf 
-    execProg' conf@(l, rs) = case lookup l p of 
-      Just i -> if i == Halt then conf else execProg' (execInstr i rs)
+    execRM' :: Conf -> Conf 
+    execRM' conf@(l, rs) = case lookup l p of 
+      Just i -> if i == Halt then conf else execRM' (execInstr i rs)
       Nothing -> error "ILabel not mapped"
 
--- function responsible for finding instruction in Prog and passing to executor
--- receives next instruction label
+toProg :: [Instr] -> Prog 
+toProg = zip [0..]
+
+setRMParam :: RM -> RLabel -> Reg -> RM 
+setRMParam (RM p rs) r reg = RM p rs' 
+  where 
+    (_, rs') = updateReg r (\_ -> reg) rs 
+
+setParam :: Regs -> RLabel -> Reg -> Regs
+setParam rs r v = rs' 
+  where 
+    (_, rs') = updateReg r (\_ -> v) rs
+
+-- Finds all registers used and maps them to zero initially, unless mapped in regs
+toRM :: Prog -> Regs -> RM
+toRM p params = RM p (foldr (\(r, v) rs -> setParam rs r v) zs params)
+  where 
+    m = maximum (mapMaybe (instrReg. snd) p)
+    zs = zip [0..m] (repeat 0)
+
+    instrReg :: Instr -> Maybe RLabel 
+    instrReg (Inc r _) = Just r 
+    instrReg (Dec r _ _) = Just r 
+    instrReg Halt = Nothing
