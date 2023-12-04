@@ -5,7 +5,9 @@ module RM (
   Prog,
   RM,
   Conf,
-  Instr(..)
+  Instr(..),
+  RLabel,
+  ILabel
 ) where
 
 import Data.Maybe ( mapMaybe ) 
