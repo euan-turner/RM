@@ -1,6 +1,7 @@
 module Encoder where
 
 import RM (Instr(..), Prog)
+
 encPair1 :: Integral a => a -> a -> a 
 encPair1 x y = encPair2 x y - 1
 

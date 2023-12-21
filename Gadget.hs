@@ -4,16 +4,18 @@ import RM (Instr(..), Prog, RLabel, ILabel, toProg)
 import Data.Maybe
 
 -- Gadgets
-type Gadget = (Prog, [RLabel])
+-- (program, scratch registers, exit labels)
+type Gadget = (Prog, [RLabel], [ILabel])
 
 -- A gadget should function as a standalone register machine program
 -- When constructed, it will assume access sole access to all registers,
 -- and will start from instruction label 0.
--- The caller is responsible for remapping all of the parameter registers
--- The gadget will also store a list of scratch registers it uses,
--- the caller should also remap all of these appropriately
+-- The caller should remap all parameter registers
+-- A gadget's definition contains a list of scratch registers it uses,
+-- which the caller should also remap
+-- A gadget's definition contains a list of exit labels, whose meaning
+-- should be documented
 -- Gadgets should guarantee that all scratch registers are zeroed before exit
--- TODO: Consideration of exit states from the gadget
 
 type RegMap = [(RLabel, RLabel)]
 type InstrMap = [(ILabel, ILabel)]
