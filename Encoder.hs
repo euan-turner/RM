@@ -2,9 +2,11 @@ module Encoder where
 
 import RM (Instr(..), Prog)
 
+-- <x, y>
 encPair1 :: Integral a => a -> a -> a 
 encPair1 x y = encPair2 x y - 1
 
+-- <<x, y>>
 encPair2 :: Integral a => a -> a -> a 
 encPair2 x y = (2 ^ x) * (2 * y + 1)
 
