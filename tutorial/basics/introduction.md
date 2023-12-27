@@ -18,12 +18,5 @@ Minsky register machines provide just three simple instructions:
 
 ---
 
-An example program, which we will see later in more detail, is the addition program. When run on initial register values of $R_1 = x, R_2 = y$, it halts with $R_0 = x + y$.
+Too see some example programs putting these instructions to use, check out the [examples](../examples/programs.md)
 
-$
-L_0: R_1^- \to L_1, L_2 \\
-L_1: R_0^+ \to L_0 \\
-L_2: R_2^- \to L_3, L_4 \\
-L_3: R_0^+ \to L_2 \\
-L_4: Halt
-$
